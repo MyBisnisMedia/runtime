@@ -48,7 +48,9 @@ namespace System.Text.Json.Serialization.Converters
                 // Fast path that avoids validation and extra indirection.
                 for (; index < array.Length; index++)
                 {
-                    elementConverter.Write(writer, array[index], options);
+                    Debug.Assert(array[index] != null);
+                    // Bang is needed despite the assert: https://github.com/dotnet/roslyn/issues/34644
+                    elementConverter.Write(writer, array[index]!, options);
                 }
             }
             else
